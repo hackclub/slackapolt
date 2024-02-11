@@ -135,7 +135,10 @@ app.command(/.*?/, async (args) => {
           },
         ],
       },
+    
     });
+
+
     await ack();
   } catch (error) {
     console.error(error);
@@ -152,6 +155,13 @@ app.view("invite_form", async (args) => {
   const emailInput = view.state.values["plain_text_input-action"].custom_invite_message; // Extract email input
   const customInviteMessage = view.state.values.custom_invite_message['custom_invite_message'].value; // Extract custom invite message
 
+
+  // Move the 'await respond({ text: "Invite Sent" });' here
+  await respond({
+    text: "Invite Sent",
+  });
+
+  
   await ack();
 });
 
