@@ -78,17 +78,17 @@ app.command(/.*?/, async (args) => {
         type: "modal",
         submit: {
           type: "plain_text",
-          text: "Submit",
+          text: "Sling The Invite",
           emoji: true,
         },
         close: {
           type: "plain_text",
-          text: "Cancel",
+          text: "Throw Away Shot",
           emoji: true,
         },
         title: {
           type: "plain_text",
-          text: "Slackapolt",
+          text: "Slack Invite Pelting Station",
           emoji: true,
         },
         blocks: [
@@ -97,7 +97,7 @@ app.command(/.*?/, async (args) => {
             block_id: "section678",
             text: {
               type: "mrkdwn",
-              text: "What channels would you like to add your club member to?",
+              text: "What channels do you want to shoot your members into?",
             },
             accessory: {
               action_id: "text1234",
@@ -117,7 +117,7 @@ app.command(/.*?/, async (args) => {
             },
             label: {
               type: "plain_text",
-              text: "What's the email of your club member?",
+              text: "What email should we shoot the invite to?",
               emoji: true,
             },
           },
@@ -129,7 +129,7 @@ app.command(/.*?/, async (args) => {
             },
             label: {
               type: "plain_text",
-              text: "Custom Invite Message",
+              text: "Leave a great message for your member",
               emoji: true,
             },
           },
@@ -164,7 +164,7 @@ app.view("invite_form", async (args) => {
 
   // Move the 'await respond({ text: "Invite Sent" });' here
   await client.chat.postEphemeral({
-    text: `Invite Sent to *${emailInput}* with an invite message of *"${customInviteMessage}"*`,
+    text: `Invite Sent to *${emailInput}* with an invite message of "*${customInviteMessage}*"`,
     user: body.user.id,
     channel: body.user.id
   });
