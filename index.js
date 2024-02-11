@@ -86,56 +86,56 @@ app.command(/.*?/, async (args) => {
       view: {
         callback_id: 'invite_form',
         "type": "modal",
-	"submit": {
-		"type": "plain_text",
-		"text": "Submit",
-		"emoji": true
-	},
-	"close": {
-		"type": "plain_text",
-		"text": "Cancel",
-		"emoji": true
-	},
-	"title": {
-		"type": "plain_text",
-		"text": "Slackapolt",
-		"emoji": true
-	},
-	"blocks": [
-		{
-			"type": "section",
-			"block_id": "section678",
-			"text": {
-				"type": "mrkdwn",
-				"text": "What channels would you like to add your club member to?"
-			},
-			"accessory": {
-				"action_id": "text1234",
-				"type": "multi_channels_select",
-				"placeholder": {
-					"type": "plain_text",
-					"text": "Select channels"
-				},
-				"initial_channels": [
-					"C0266FRGV",
-					"C0C78SG9L",
-					"C0266FRGT"
-				]
-			}
-		},
-		{
-			"type": "input",
-			"element": {
-				"type": "email_text_input",
-				"action_id": "email_text_input-action"
-			},
-			"label": {
-				"type": "plain_text",
-				"text": "What's the email of your club member?",
-				"emoji": true
-			}
-		}
-	]
+  "submit": {
+    "type": "plain_text",
+    "text": "Submit",
+    "emoji": true
+  },
+  "close": {
+    "type": "plain_text",
+    "text": "Cancel",
+    "emoji": true
+  },
+  "title": {
+    "type": "plain_text",
+    "text": "Slackapolt",
+    "emoji": true
+  },
+  "blocks": [
+    {
+      "type": "section",
+      "block_id": "section678",
+      "text": {
+        "type": "mrkdwn",
+        "text": "What channels would you like to add your club member to?"
+      },
+      "accessory": {
+        "action_id": "text1234",
+        "type": "multi_channels_select",
+        "placeholder": {
+          "type": "plain_text",
+          "text": "Select channels"
+        },
+        "initial_channels": [
+          "C0266FRGV",
+          "C0C78SG9L",
+          "C0266FRGT"
+        ]
+      }
+    },
+    {
+      "type": "input",
+      "element": {
+        "type": "email_text_input",
+        "action_id": "email_text_input-action"
+      },
+      "label": {
+        "type": "plain_text",
+        "text": "What's the email of your club member?",
+        "emoji": true
+      }
+    }
+  ]
         
     }})
   } catch (error) {
@@ -152,12 +152,6 @@ app.command(/.*?/, async (args) => {
         }
       ]
     })
-  }
-});
-
-    await respond("hello world");
-  } catch (e) {
-    console.error(e);
   }
 });
 
