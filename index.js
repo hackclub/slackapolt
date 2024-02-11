@@ -74,29 +74,9 @@ app.command(/.*?/, async (args) => {
 
     await ack()
 
-    await respond({
-      blocks: [
-        {
-          type: 'context',
-          elements: [
-            {
-              type: 'mrkdwn',
-              text: `${command} ${text}`,
-            },
-          ],
-        },
-      ],
-    })
 
-    switch (command) {
-      case '/slackapolt':
-        await require(`./commands/slackapolt`)(args)
-        break
-
-      default:
-        await require('./commands/not-found')(args)
-        break
-    }
+    await respond("hello world")
+    
   } catch (e) {
     console.error(e)
   }
@@ -104,6 +84,7 @@ app.command(/.*?/, async (args) => {
 
 app.start(process.env.PORT || 3001).then(async () => {
   console.log(transcript('startupLog'))
+  app.client.apps.connections.open
 })
 
 module.exports = { app }
