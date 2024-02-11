@@ -1,25 +1,31 @@
-require('dotenv').config()
-const { inviteUserToChannel } = require('./util/invite-user-to-channel')
-const { mirrorMessage } = require('./util/mirror-message')
-const { transcript } = require('./util/transcript')
+require("dotenv").config();
+const { inviteUserToChannel } = require("./util/invite-user-to-channel");
+const { mirrorMessage } = require("./util/mirror-message");
+const { transcript } = require("./util/transcript");
 const {
   postWelcomeCommittee,
-} = require('./interactions/post-welcome-committee')
-const express = require('express')
+} = require("./interactions/post-welcome-committee");
+const express = require("express");
 
-const { app, client } = require('./app.js')
-const { receiver } = require('./express-receiver')
-const { getInvite } = require('./util/get-invite')
-const { sleep } = require('./util/sleep')
-const { prisma } = require('./db')
-const { metrics } = require('./util/metrics')
-const { upgradeUser } = require('./util/upgrade-user.js')
+const { app, client } = require("./app.js");
+const { receiver } = require("./express-receiver");
+const { getInvite } = require("./util/get-invite");
+const { sleep } = require("./util/sleep");
+const { prisma } = require("./db");
+const { metrics } = require("./util/metrics");
+const { upgradeUser } = require("./util/upgrade-user.js");
 
-receiver.router.use(express.json())
+receiver.router.use(express.json());
 
-receiver.router.get('/ping', require('./endpoints/ping'))
+receiver.router.get("/ping", require("./endpoints/ping"));
 
-const preselectedChannels = ['lounge', 'scrapbook', 'happenings', 'ship', 'welcome']
+const preselectedChannels = [
+  "lounge",
+  "scrapbook",
+  "happenings",
+  "ship",
+  "welcome",
+];
 
 // const addToChannels = async (user, event) => {
 //   await upgradeUser(user)
@@ -61,30 +67,103 @@ const preselectedChannels = ['lounge', 'scrapbook', 'happenings', 'ship', 'welco
 // }
 
 app.command(/.*?/, async (args) => {
-  const { ack, payload, respond } = args
-  const { command, text, user_id, channel_id } = payload
+  const { ack, payload, respond } = args;
+  const { command, text, user_id, channel_id } = payload;
 
   try {
     mirrorMessage({
       message: `${command} ${text}`,
       user: user_id,
       channel: channel_id,
-      type: 'slash-command',
+      type: "slash-command",
+    });
+
+    await ack();
+
+      try {
+    const result = await client.views.open({
+      trigger_id: body.trigger_id,
+      view: {
+        callback_id: 'invite_form',
+        "type": "modal",
+	"submit": {
+		"type": "plain_text",
+		"text": "Submit",
+		"emoji": true
+	},
+	"close": {
+		"type": "plain_text",
+		"text": "Cancel",
+		"emoji": true
+	},
+	"title": {
+		"type": "plain_text",
+		"text": "Slackapolt",
+		"emoji": true
+	},
+	"blocks": [
+		{
+			"type": "section",
+			"block_id": "section678",
+			"text": {
+				"type": "mrkdwn",
+				"text": "What channels would you like to add your club member to?"
+			},
+			"accessory": {
+				"action_id": "text1234",
+				"type": "multi_channels_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Select channels"
+				},
+				"initial_channels": [
+					"C0266FRGV",
+					"C0C78SG9L",
+					"C0266FRGT"
+				]
+			}
+		},
+		{
+			"type": "input",
+			"element": {
+				"type": "email_text_input",
+				"action_id": "email_text_input-action"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "What's the email of your club member?",
+				"emoji": true
+			}
+		}
+	]
+        
+    }})
+  } catch (error) {
+    logger.error(error)
+    // Let user know there was an error
+    await respond({
+      blocks: [
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: `Oops, there was an error getting your pizza delivered: \`${error.message}\`. If this keeps happening, message <mailto:pizza@hackclub.com|pizza@hackclub.com>!`
+          }
+        }
+      ]
     })
-
-    await ack()
-
-
-    await respond("hello world")
-    
-  } catch (e) {
-    console.error(e)
   }
-})
+});
+
+    await respond("hello world");
+  } catch (e) {
+    console.error(e);
+  }
+});
 
 app.start(process.env.PORT || 3001).then(async () => {
-  console.log(transcript('startupLog'))
-  app.client.apps.connections.open
-})
+  console.log(transcript("startupLog"));
+  app.client.apps.connections.open;
+});
 
-module.exports = { app }
+module.exports = { app };
