@@ -153,14 +153,6 @@ app.command(/.*?/, async (args) => {
       ]
     })
   }
-});
-
-    await respond("hello world");
-  } catch (e) {
-    console.error(e);
-  }
-});
-
 app.start(process.env.PORT || 3001).then(async () => {
   console.log(transcript("startupLog"));
   app.client.apps.connections.open;
