@@ -121,31 +121,45 @@ app.command(/.*?/, async (args) => {
               emoji: true,
             },
           },
+          {
+            type: "input",  // Add this block for Custom Invite Message
+            element: {
+              type: "plain_text_input",
+              action_id: "custom_invite_message-action",
+            },
+            label: {
+              type: "plain_text",
+              text: "Custom Invite Message",
+              emoji: true,
+            },
+          },
         ],
       },
     });
+    await ack();
   } catch (error) {
-    logger.error(error);
-    // Let user know there was an error
-    await respond({
-      blocks: [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: `Oops, there was an error getting your pizza delivered: \`${error.message}\`. If this keeps happening, message <mailto:pizza@hackclub.com|pizza@hackclub.com>!`,
-          },
-        },
-      ],
-    });
+    console.error(error);
+    // Handle error as needed
   }
 });
+
+
+// Add event listener for view_submission to handle the submitted form
+app.view("invite_form", async (args) => {
+  const { ack, body, view } = args;
+  const { user_id, trigger_id } = body.user;
+  const channelsSelected = view.state.values.section678.text1234.selected_channels; // Extract selected channels
+  const emailInput = view.state.values["plain_text_input-action"].custom_invite_message; // Extract email input
+  const customInviteMessage = view.state.values.custom_invite_message['custom_invite_message'].value; // Extract custom invite message
+
+  await ack();
+});
+
 
 // Missing closing brace for the outer try block
 
 app.start(process.env.PORT || 3001).then(async () => {
   console.log(transcript("startupLog"));
-  app.client.apps.connections.open();
 });
 
 module.exports = { app };

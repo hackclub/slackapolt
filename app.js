@@ -6,5 +6,4 @@ const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   receiver
 })
-
 module.exports = { app, client: app.client }
