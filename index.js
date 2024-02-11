@@ -149,24 +149,31 @@ app.command(/.*?/, async (args) => {
 
 // Add event listener for view_submission to handle the submitted form
 app.view("invite_form", async (args) => {
-  const { ack, body, view } = args;
+  const { ack, body, view, say } = args;
   const { user_id, trigger_id } = body.user;
-  const channelsSelected = view.state.values.section678.text1234.selected_channels; // Extract selected channels
-  const emailInput = view.state.values["plain_text_input-action"].custom_invite_message; // Extract email input
-  const customInviteMessage = view.state.values.custom_invite_message['custom_invite_message'].value; // Extract custom invite message
+  console.log(view.state.values)
 
+  const channelsSelected = view.state.values.section678.text1234.selected_channels; // Extract selected channels
+  
+  console.log(channelsSelected)
+  
+  const emailInput = view.state.values.fAqMv["email_text_input-action"].value; // Extract email input
+  console.log(emailInput)
+  const customInviteMessage = view.state.values.HmCd9["custom_invite_message-action"].value; // Extract custom invite message
+  console.log(customInviteMessage)
 
   // Move the 'await respond({ text: "Invite Sent" });' here
-  await respond({
-    text: "Invite Sent",
+  await client.chat.postEphemeral({
+    text: `Invite Sent to *${emailInput}* with an invite message of *"${customInviteMessage}"*`,
+    user: body.user.id,
+    channel: body.user.id
   });
 
-  
+
   await ack();
 });
 
 
-// Missing closing brace for the outer try block
 
 app.start(process.env.PORT || 3001).then(async () => {
   console.log(transcript("startupLog"));
